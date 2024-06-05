@@ -33,6 +33,10 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+        cache: 'pip' # this caches the pip install using the hash  of requirements.txt asn a key
+
+    - name: Install python dependencies
+      run: pip install -r requirements.txt
 
     - name: Set paths
       run: |
@@ -52,13 +56,6 @@ jobs:
         sudo apt install libfftw3-dev gsl-bin libgsl0-dev libboost-serialization-dev
         sudo apt install ccache
         sudo apt-get update
-        pip install PyYAML pytz
-        pip install nbconvert
-        pip install numpy
-        pip install nbformat
-        pip install PlumedToHTML
-        pip install cython
-        pip install MDAnalysis
         git clone --bare https://github.com/plumed/plumed2.git
         sudo ln -s ccache /usr/local/bin/mpic++
         export PATH=/usr/lib/ccache:${PATH}

@@ -1,0 +1,8 @@
+PyYAML==6.0.1
+pytz==2024.1
+nbconvert==7.16.4
+nbformat==5.10.4
+numpy==1.26.4
+PlumedToHTML==0.71
+cython==3.0.10
+MDAnalysis==2.7.0
