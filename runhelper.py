@@ -2,17 +2,37 @@ from typing import TextIO
 import numpy as np
 
 
-def getBadge(sucess, filen, code, version: str):
-    badge = f"[![tested on {version}](https://img.shields.io/badge/{version}-"
+def getBadge(sucess, filen, version: str, local=False):
+    successStr = "failed"
+    color = "red"
     if sucess < 0:
-        badge = badge + "failed-red.svg"
-    elif sucess < 5:
-        badge = badge + f"fail {sucess}%25-green.svg"
-    elif sucess < 20:
-        badge = badge + f"fail {sucess}%25-yellow.svg"
+        successStr = "failed"
+        color = "red"
     else:
-        badge = badge + f"fail {sucess}%25-yellow.svg"
-    return badge + f")]({filen}_{version}.html)"
+        if sucess < 5:
+            color = "green"
+        elif sucess < 20:
+            color = "yellow"
+        else:
+            ########################################################################
+            # should this be "red"?
+            ########################################################################
+            color = "yellow"
+        if local:
+            successStr = f"fail {sucess}%"
+        else:
+            successStr = f"fail {sucess}%25"
+
+    if local:
+        return (
+            f'[<span style="color:{color}">{successStr}</span>]({filen}_{version}.md)'
+        )
+    else:
+        return (
+            f"[![tested on {version}]"
+            f"(https://img.shields.io/badge/{version}-{successStr}-{color}.svg)"
+            f"]({filen}_{version}.html)"
+        )
 
 
 def writeReportPage(
@@ -173,8 +193,8 @@ class writeReportForSimulations:
             + getBadge(
                 check(self.md_failed, val1, val2, val3, tolerance=tolerance),
                 kind,
-                self.code,
                 self.version,
+                local=self.prefix != "",
             )
             + " |\n"
         )

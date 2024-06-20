@@ -586,23 +586,26 @@ RESTRAINT AT=0.0 ARG=e SLOPE={alpha - 1}
     # Read output file to get status
     with open(f"{outdir}/" + fname, "r") as ifn:
         inp = ifn.read()
-
-    infoOut = open(f"{outdir}/info.yml", "a")
-    if "failed-red.svg" in inp:
-        infoOut.write(f"test_plumed{version}: broken \n")
-    elif "%25-green.svg" in inp and ("%25-red.svg" in inp or "%25-yellow.svg" in inp):
-        infoOut.write(f"test_plumed{version}: partial\n")
-    elif "%25-yellow.svg" in inp:
-        infoOut.write(f"test_plumed{version}: partial\n")
-    elif "%25-green.svg" in inp:
-        infoOut.write(f"test_plumed{version}: working \n")
-    elif "%25-red.svg" in inp:
-        infoOut.write(f"test_plumed{version}: broken \n")
-    else:
-        raise Exception(
-            f"Found no test badges in output for tests on {code} with " + version
-        )
-    infoOut.close()
+    if prefix == "":
+        # as now in local mode we can check the results in testout.md
+        infoOut = open(f"{outdir}/info.yml", "a")
+        if "failed-red.svg" in inp:
+            infoOut.write(f"test_plumed{version}: broken \n")
+        elif "%25-green.svg" in inp and (
+            "%25-red.svg" in inp or "%25-yellow.svg" in inp
+        ):
+            infoOut.write(f"test_plumed{version}: partial\n")
+        elif "%25-yellow.svg" in inp:
+            infoOut.write(f"test_plumed{version}: partial\n")
+        elif "%25-green.svg" in inp:
+            infoOut.write(f"test_plumed{version}: working \n")
+        elif "%25-red.svg" in inp:
+            infoOut.write(f"test_plumed{version}: broken \n")
+        else:
+            raise Exception(
+                f"Found no test badges in output for tests on {code} with " + version
+            )
+        infoOut.close()
 
 
 if __name__ == "__main__":
