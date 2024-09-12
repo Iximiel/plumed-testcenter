@@ -1,0 +1,8 @@
+PyYAML
+pytz
+nbconvert
+numpy
+nbformat
+PlumedToHTML
+cython
+MDAnalysis
