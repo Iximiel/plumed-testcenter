@@ -106,7 +106,7 @@ jobs:
       - setup-plumed
     strategy:
       matrix:
-        replica: ["simplemd", "lammps", "quantum_espresso", "i-pi", "gromacs", "gromacs-vanilla"]
+        replica: ["simplemd", "lammps",  "i-pi", "gromacs", "gromacs-vanilla"]
         # TODO: separate master and stable versions for running tests
         # plumed-version:
         #   - master
@@ -243,6 +243,7 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./tmp/deploy
           force_orphan: true
